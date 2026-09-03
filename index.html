@@ -40,6 +40,13 @@
   "image": "https://www.bfcarservicos.com.br/fachada-rua.jpg",
   "telephone": "+55 11 94751-7113",
   "priceRange": "$",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "26",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
   "currenciesAccepted": "BRL",
   "paymentAccepted": "Dinheiro, Pix, Cartão de crédito, Cartão de débito",
   "areaServed": [
@@ -107,7 +114,7 @@
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
   section[id], footer[id] { scroll-margin-top: 92px; }
-  @media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) { html, body { scroll-behavior: auto; } [data-marquee] { animation: none !important; } }
   body { font-family: Onest, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
   a { color: #ffffff; text-decoration: none; }
   a:hover { color: #ffffff; }
@@ -349,25 +356,41 @@
   </div>
 </section>
 
-<!-- ===== 05 · AVALIAÇÕES — SUBSTITUA pelos depoimentos reais do Google da oficina ===== -->
+<!-- ===== 05 · AVALIAÇÕES — depoimentos reais do Google Meu Negócio ===== -->
 <section id="avaliacoes" aria-labelledby="avaliacoes-titulo" ref="{{ revRef }}" style="background: #131313; color: #E6E6E6; border-top: 1px solid rgba(230,230,230,0.1); padding: clamp(64px, 10vh, 130px) clamp(24px, 6vw, 92px); opacity: {{ revOp }}; transform: translateY({{ revShift }}); transition: opacity 1s ease, transform 1s ease;">
   <div style="max-width: 1320px; margin: 0 auto;">
     <div style="display: flex; flex-direction: column; align-items: center; text-align: center; margin: 0 0 clamp(40px, 6vh, 70px);">
       <p style="margin: 0 0 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(230,230,230,0.55);">Avaliações</p>
       <h2 id="avaliacoes-titulo" style="margin: 0; font-size: clamp(1.9rem, 3.3vw, 3.2rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.05; color: #ffffff; text-wrap: balance;">Quem já confiou, <span style="color: #F5B900;">recomenda.</span></h2>
-      <div style="margin: 20px 0 0; display: flex; flex-direction: column; align-items: center; gap: 10px;">
-        <p style="margin: 0; font-size: 1rem; color: rgba(230,230,230,0.7);">Avaliações de clientes no Google</p>
-        <span aria-hidden="true" style="color: #F5B900; font-size: 1.1rem; letter-spacing: 3px;">★★★★★</span>
+      <div style="margin: 22px 0 0; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <div style="display: flex; align-items: baseline; gap: 14px;">
+          <span style="font-size: clamp(2.2rem, 3.4vw, 3rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1; color: #ffffff;">5,0</span>
+          <span aria-hidden="true" style="color: #F5B900; font-size: 1.15rem; letter-spacing: 3px;">★★★★★</span>
+        </div>
+        <p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(230,230,230,0.6);">26 avaliações no Google</p>
       </div>
     </div>
-    <div style="display: grid; grid-template-columns: {{ revCols }}; gap: clamp(16px, 2vw, 26px);">
+    <div style="overflow: {{ revOverflow }}; mask-image: {{ revMask }}; -webkit-mask-image: {{ revMask }};">
+      <div data-marquee="" style="display: {{ revDisplay }}; grid-template-columns: {{ revCols }}; gap: {{ revGap }}; width: {{ revTrackWidth }}; align-items: stretch; animation: {{ revAnim }};">
       <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
-        <article style="display: flex; flex-direction: column; gap: 18px; padding: clamp(26px, 3vw, 38px) clamp(22px, 2.4vw, 32px); border: 1px solid rgba(230,230,230,0.14); border-radius: 18px; background: transparent; backdrop-filter: blur(3px); opacity: {{ revOp }}; transform: translateY({{ revShift }}); transition: opacity 1s ease {{ r.delay }}, transform 1s ease {{ r.delay }};">
-          <span aria-hidden="true" style="color: #F5B900; font-size: 15px; letter-spacing: 3px;">★★★★★</span>
-          <p style="margin: 0; font-size: clamp(0.98rem, 1.15vw, 1.08rem); line-height: 1.68; color: rgba(255,255,255,0.88); text-wrap: pretty;">“{{ r.text }}”</p>
-          <p style="margin: auto 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(230,230,230,0.55);"><span style="color: #ffffff;">{{ r.name }}</span> · Google</p>
+        <article aria-hidden="{{ r.dupe }}" style="box-sizing: border-box; flex: {{ r.flex }}; margin-right: {{ r.gapRight }}; display: flex; flex-direction: column; gap: 18px; padding: clamp(26px, 3vw, 38px) clamp(22px, 2.4vw, 32px); border: 1px solid rgba(230,230,230,0.14); border-radius: 18px; background: transparent; backdrop-filter: blur(3px); opacity: {{ revOp }}; transform: translateY({{ revShift }}); transition: opacity 1s ease {{ r.delay }}, transform 1s ease {{ r.delay }};">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <sc-if value="{{ r.hasPhoto }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ r.avatar }}" alt="Foto de {{ r.name }}" width="46" height="46" loading="lazy" decoding="async" style="width: 46px; height: 46px; flex: 0 0 auto; border-radius: 999px; object-fit: cover; display: block;">
+            </sc-if>
+            <sc-if value="{{ r.noPhoto }}" hint-placeholder-val="{{ false }}">
+              <span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; flex: 0 0 auto; border-radius: 999px; background: {{ r.avatarBg }}; color: #111111; font-size: 1.1rem; font-weight: 700; line-height: 1;">{{ r.initial }}</span>
+            </sc-if>
+            <div style="display: flex; flex-direction: column; gap: 7px; min-width: 0;">
+              <span style="font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: #ffffff;">{{ r.name }}</span>
+              <span aria-hidden="true" style="color: #F5B900; font-size: 13px; letter-spacing: 2.5px; line-height: 1;">★★★★★</span>
+            </div>
+          </div>
+          <p style="margin: 0; font-size: clamp(0.98rem, 1.15vw, 1.08rem); line-height: 1.68; color: rgba(255,255,255,0.88); text-wrap: pretty;">{{ r.text }}</p>
+          <p style="margin: auto 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(230,230,230,0.45);">Avaliação no Google</p>
         </article>
       </sc-for>
+      </div>
     </div>
   </div>
 </section>
@@ -449,11 +472,14 @@ class Component extends DCLogic {
     { num: '05', title: 'Carro pronto e revisado', desc: 'Entrega com revisão final. O valor combinado é o valor pago. Simples assim.' }
   ];
 
-  // AVALIAÇÕES — SUBSTITUA pelos depoimentos reais do Google da oficina (texto + primeiro nome)
+  // AVALIAÇÕES — depoimentos reais do Google Meu Negócio (atualizar quando vierem novos)
   REVIEWS = [
-    { name: 'Rodrigo M.', text: 'Levei o carro com uma falha que duas oficinas não acharam. Aqui resolveram e ainda me mostraram a peça trocada. Virei cliente.' },
-    { name: 'Fernanda S.', text: 'Atendimento honesto do começo ao fim. Explicaram tudo antes de fazer, e o preço combinado foi o preço pago.' },
-    { name: 'Carlos A.', text: 'Chamei no WhatsApp de manhã e no fim do dia o carro estava pronto. Rápido, organizado e sem enrolação.' }
+    { name: 'Layla Silva', text: 'Nota 10 do começo ao fim! Sempre muito atenciosos, rápidos para identificar o problema e, principalmente, resolvem de verdade. Nunca precisei voltar por problema de garantia. Confio demais no trabalho deles e hoje não levo meu carro em outro lugar. Super indico!' },
+    { name: 'Ricardo Mello', avatar: './avatar-ricardo.png', text: 'Excelente atendimento! Equipe profissional, serviço de qualidade e muita transparência. O carro ficou ótimo e o prazo foi cumprido. Recomendo a BF Car!' },
+    { name: 'Alexandre Prado', avatar: './avatar-alexandre.png', text: 'Fiquei muito satisfeito com o atendimento. Serviço rápido, bem feito e com profissionais que realmente entendem do assunto. Preço justo e muita confiança. Recomendo!' },
+    { name: 'Apricia Ferreira', avatar: './avatar-apricia.png', text: 'Gosto de fazer as revisões e manutenções necessárias do meu carro na BF Car Serviços Automotivos, pois são profissionais e o serviço sempre é ótimo.' },
+    { name: 'Josias Langanki da Silva', text: 'Excelente oficina e auto peças. Preço justo e confiança no serviço prestado.' },
+    { name: 'Rose Pires Rose', text: 'Ótimo atendimento, indico de olhos fechados, excelente trabalho e profissional.' }
   ];
 
   _reveal(key) {
@@ -652,6 +678,8 @@ class Component extends DCLogic {
   renderVals() {
     const isWide = this.state.w >= 820;
     const zoom = this.props.slowZoom !== false;
+    // esteira horizontal das avaliações — só no desktop; no mobile continua grade estática
+    const revMarquee = this.state.w >= 980;
     return {
       isWide,
       isNarrow: !isWide,
@@ -744,7 +772,29 @@ class Component extends DCLogic {
       stepsOp: (this.state.reveal || {}).steps ? 1 : 0.001,
       stepsShift: (this.state.reveal || {}).steps ? '0px' : '30px',
       stepCols: this.state.w >= 1100 ? 'repeat(5, 1fr)' : this.state.w >= 640 ? 'repeat(2, 1fr)' : '1fr',
-      reviews: this.REVIEWS.map((rv, i) => ({ ...rv, delay: (0.15 * (i + 1)).toFixed(2) + 's' })),
+      reviews: (() => {
+        const base = this.REVIEWS.map((rv, i) => ({
+          ...rv,
+          initial: rv.name.charAt(0).toUpperCase(),
+          hasPhoto: !!rv.avatar,
+          noPhoto: !rv.avatar,
+          avatarBg: ['#F5B900', '#E6E6E6', '#C79600'][i % 3],
+          delay: revMarquee ? '0s' : (0.15 * (i + 1)).toFixed(2) + 's',
+          flex: revMarquee ? '0 0 clamp(320px, 25vw, 400px)' : '1 1 auto',
+          // no desktop o espaçamento vive na margem do card (não no gap da trilha),
+          // para cada cópia medir C+G e o -50% cair exatamente sobre uma volta
+          gapRight: revMarquee ? 'clamp(16px, 2vw, 26px)' : '0px',
+          dupe: false
+        }));
+        // segunda cópia da lista fecha o loop sem emenda (translateX -50%)
+        return revMarquee ? base.concat(base.map(b => ({ ...b, dupe: true }))) : base;
+      })(),
+      revDisplay: revMarquee ? 'flex' : 'grid',
+      revGap: revMarquee ? '0px' : 'clamp(16px, 2vw, 26px)',
+      revTrackWidth: revMarquee ? 'max-content' : 'auto',
+      revAnim: revMarquee ? 'ticker 60s linear infinite reverse' : 'none',
+      revOverflow: revMarquee ? 'hidden' : 'visible',
+      revMask: revMarquee ? 'linear-gradient(90deg, rgba(0,0,0,0) 0%, #000 5%, #000 95%, rgba(0,0,0,0) 100%)' : 'none',
       revRef: this._reveal('rev'),
       revOp: (this.state.reveal || {}).rev ? 1 : 0.001,
       revShift: (this.state.reveal || {}).rev ? '0px' : '30px',
